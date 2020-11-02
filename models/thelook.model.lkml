@@ -62,6 +62,44 @@ explore: order_items {
     sql_on: ${distribution_centers.id} = ${inventory_items.product_distribution_center_id} ;;
     relationship: many_to_one
   }
+
+  query: by_product_department {
+    dimensions: [products.department]
+    measures: [products.count]
+    description: "Order count by men/womens product departments"
+    limit: 500
+  }
+
+  query: orders_by_brand_name {
+    dimensions: [products.brand]
+    measures: [products.count, order_items.order_count]
+    description: "Orders by brand name"
+    limit: 500
+  }
+
+  query: by_age_tier {
+    description: "Order count by age tier, separated 10 years apart"
+    dimensions: [users.age_tier]
+    measures: [order_items.order_count]
+    filters: [users.age: "<50"]
+  }
+
+  query: orders_by_state {
+    dimensions: [users.state]
+    measures: [users.count, order_items.order_count]
+  }
+
+  query: products_detail {
+    dimensions: [products.brand, products.category, products.department]
+  }
+
+  query: orders_detail {
+    dimensions: [users.state, products.brand, order_facts.items_in_order]
+  }
+
+  query: users_detail {
+    dimensions: [users.first_name, users.last_name, users.age_tier, users.city]
+  }
 }
 
 
